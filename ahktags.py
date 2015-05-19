@@ -61,8 +61,8 @@ def main():
     if args.recursive:
         files += glob('./**/*.ahk')
 
+    tags = Tags()
     for filename in files:
-        tags = Tags()
         with open(filename) as fp:
             filename = re.sub(r'^\./', '', filename)
             script = fp.read()
@@ -71,7 +71,10 @@ def main():
                 find_entries(LABEL, filename, script, 'label'),
                 (find_entries(VARIABLE, filename, script, 'variable')
                  if args.include_vars else []))
-            tags.entries = list(entries)
+            tags.entries += list(entries)
+
+    if not tags.entries:
+        return
 
     if args.file == '-':
         print(tags)
