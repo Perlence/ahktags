@@ -57,6 +57,13 @@ def main():
     parser.add_argument('FILES', nargs='*')
     args = parser.parse_args()
 
+    if args.list_kinds:
+        print("v  variable",
+              "l  label",
+              "f  function",
+              sep='\n')
+        return
+
     files = args.FILES
     if args.recursive:
         files += glob('./**/*.ahk')
